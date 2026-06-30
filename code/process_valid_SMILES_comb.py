@@ -24,7 +24,7 @@ def process_valid_SMILES_comb(comb_data_df, abx_data_df):
     return small_mol_df, abx_smiles_df
 
 def normalize_smiles(smiles_df, col_name):
-    smiles_df = normalize_smiles_df(smiles_df, col_name, protonate=True)
+    smiles_df = normalize_smiles_df(smiles_df, col_name, protonate=False)
     return smiles_df
 
 def identify_invalid_smiles(small_mol_df, abx_smiles_df):
