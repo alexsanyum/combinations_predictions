@@ -2,6 +2,7 @@ import pandas as pd
 from chem_utilities import normalize_smiles_df
 from argparse import ArgumentParser
 import os
+
 def load_data(path):
     return pd.read_csv(path)
 
@@ -80,7 +81,6 @@ def main():
     # Save data to CSV
     print(f"Saving normalized SMILES and valid combination data to {args.output_path}...")
     valid_comb_data.to_csv(os.path.join(os.path.dirname(args.output_path), 'valid_comb_data.csv'), index=False)
-
 
     return
 
