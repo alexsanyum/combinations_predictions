@@ -137,6 +137,10 @@ def main():
     print(f"Mapping embeddings back to original SMILES order...")
     embeddings = process_embeddings(unique_embeddings_array, inverse_mapping, original_length)
 
+    # Check if shape of original embeddings matches the expected shape
+    expected_shape = (original_length, unique_embeddings_array.shape[1])
+    if embeddings.shape != expected_shape:
+        raise ValueError(f"Shape mismatch: Expected {expected_shape}, but got {embeddings.shape}")
     # Test embeddings
 
     if args.len_test > 0:
