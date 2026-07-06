@@ -22,7 +22,7 @@ After normalization, the canonical SMILES were written, and combination data is 
 
 The commnand line to perform this step is the next one:
 ~~~bash
-python code/process_valid_SMILES_comb.py --comb_data_path data/B_blisssum_DropArray.csv \ 
+python src/process_valid_SMILES_comb.py --comb_data_path data/B_blisssum_DropArray.csv \ 
                                          --abx_data_path metadata/antibiotics_names.txt \
                                          --output_path data/
 ~~~
@@ -37,12 +37,12 @@ This script will generate three files in the ```data/``` directory
 The script ```smiles2clsembs.py``` load the pre-trained model ```DeepChem/ChemBERTa-77M-MLM``` and process each normalized SMILES. The processing will be performed on GPU if available, and savec on disk.
 
 ~~~bash
-python code/smiles2clsembs.py --smiles_path data/normalized_abx.csv \
+python src/smiles2clsembs.py --smiles_path data/normalized_abx.csv \
 --smiles_column normalized_smiles \
 --model_name DeepChem/ChemBERTa-77M-MLM \ 
 --output_path data/abx_embs.npz
 
-python code/smiles2clsembs.py --smiles_path data/normalized_small_mol.csv \ 
+python src/smiles2clsembs.py --smiles_path data/normalized_small_mol.csv \ 
 --smiles_column normalized_smiles \
 --model_name DeepChem/ChemBERTa-77M-MLM \
 --output_path data/small_mol_embs.npz 
@@ -54,7 +54,7 @@ The script returns a compressed numpy file for antibiotics and small molecules e
 The  ```process_valid_SMILES_comb.py``` script takes previous results and build the concatenation: [antiobitic embedgins | small molecule embedding | bliss score] for each strain, and save into disk. 
 
 ~~~bash
-python code/concat_strain_embs.py --comb_data data/valid_comb_data.csv \
+python src/concat_strain_embs.py --comb_data data/valid_comb_data.csv \
                                   --norm_small_mols data/normalized_small_mol.csv \
                                   --small_mol_embs data/small_mol_embs.npz \
                                   --norm_abx data/normalized_abx.csv \
