@@ -2,4 +2,4 @@ data/
 .vscode/
 code/__pycache__
 
-code/test_code.ipynb
+test_code.ipynb
