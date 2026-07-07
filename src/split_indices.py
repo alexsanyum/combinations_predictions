@@ -24,8 +24,8 @@ def split_indices(path_to_emds: list[Path], output_file: Path) -> None:
         
         strain_name = str(strain_path.name).split("_")[0]
         splits[strain_name] = {
-            "train": train_idx, 
-            "test": test_idx
+            "train": train_idx.tolist(), 
+            "test": test_idx.tolist()
         }
     
     np.save(output_file, splits)
