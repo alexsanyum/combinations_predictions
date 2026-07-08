@@ -16,9 +16,9 @@ from imblearn.pipeline import Pipeline
 from skopt import BayesSearchCV
 from sklearn.model_selection import StratifiedKFold
 
-# Adapted IMCP score function
+# Adapted IMCP score function, adapted version of the original imcp_score function to use trapezo
 from sklearn.metrics import make_scorer
-from imcp import imcp_score
+from src.imcp import imcp_score 
 
 # Import classifiers
 from sklearn.calibration import CalibratedClassifierCV
