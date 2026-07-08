@@ -4,6 +4,7 @@ from pathlib import Path
 import os
 import joblib
 import numpy as np
+import gc
 
 # Import libraries for undersampling
 from src.cluster_undersampling import ClusterUnderSampler
@@ -39,7 +40,7 @@ def get_models_and_params():
     # Load and set parameters for the ClusterUnderSampler
     sampler = ClusterUnderSampler(random_sample_seed=42)
     sampler_params = {
-        "sampler__clustering_model": Categorical([KMeans, AgglomerativeClustering]),
+        "sampler__clustering_model": Categorical([KMeans]),
         "sampler__n_clusters": Integer(2, 10, prior='uniform'),
         "sampler__reduction_percentage_class": Real(0.1, 0.5, prior='uniform')
     }
@@ -94,17 +95,17 @@ def get_models_and_params():
     }
 
     models_params = {
-        "lr": (lr, lr_params),
-        "svc": (svc, svc_params),
         "rf": (rf, rf_params),
         "xgb": (xgb, xgb_params),
-        "lgbm": (lgbm, lgbm_params)
+        "lgbm": (lgbm, lgbm_params),
+        "lr": (lr, lr_params),
+        "svc": (svc, svc_params)
     }
     
     return sampler, sampler_params, models_params
 
 
-def run_pipeline(strain_embs_path, splits_path, output_models_dir, n_iter, cv_folds):
+def run_pipeline(strain_embs_path, splits_path, output_models_dir, n_iter, cv_folds, n_jobs=1):
     """Executes the data loading, training loop, and model checkpoint saving."""
     os.makedirs(output_models_dir, exist_ok=True)
 
@@ -122,14 +123,14 @@ def run_pipeline(strain_embs_path, splits_path, output_models_dir, n_iter, cv_fo
         print(f"\nProcessing strain: {strain_name}")
 
         data = np.load(strain_path)['comb_embs']
-        X = data[:, :-1]
-        y = data[:, -1]
         
         train_indices = train_test_splits[strain_name]["train"]
-        test_indices = train_test_splits[strain_name]["test"]
+    
+        X_train = data[train_indices, :-1]
+        y_train = data[train_indices, -1]
 
-        X_train = X[train_indices]
-        y_train = y[train_indices]
+        del data
+        gc.collect()
 
         for model_name, (model_obj, model_grid) in models_params.items():
             print(f"  Optimizing {model_name}...")
@@ -147,7 +148,7 @@ def run_pipeline(strain_embs_path, splits_path, output_models_dir, n_iter, cv_fo
                 error_score=np.nan, 
                 n_iter=n_iter, 
                 cv=sk, 
-                n_jobs=1, 
+                n_jobs=n_jobs, 
                 random_state=42
             )
             
@@ -157,9 +158,6 @@ def run_pipeline(strain_embs_path, splits_path, output_models_dir, n_iter, cv_fo
             joblib.dump(bs, output_name)
             print(f"  Saved: {output_name}")
             
-
-
-
 def main():
     parser = argparse.ArgumentParser(description="Train models using Bayesian Optimization and Undersampling.")
     
@@ -167,7 +165,7 @@ def main():
     parser.add_argument("--strain_embs", type=str, required=True, help="Path pattern to strain embeddings (e.g. 'data/strains_embs/*.npz')")
     parser.add_argument("--splits_path", type=str, required=True, help="Path to train/test splits .npy file")
     parser.add_argument("--output_dir", type=str, required=True, help="Directory path to save output models")
-    
+    parser.add_argument("--n_jobs", type=int, default=1, help="Number of parallel jobs for BayesSearchCV (default: 1)")
     # The two requested flags (with default fallbacks matching your original code)
     parser.add_argument("--n_iter", type=int, default=2, help="Number of iterations for BayesSearchCV (default: 2)")
     parser.add_argument("--cv", type=int, default=2, help="Number of cross-validation folds for BayesSearchCV (default: 2)")
@@ -179,7 +177,8 @@ def main():
         splits_path=args.splits_path,
         output_models_dir=args.output_dir,
         n_iter=args.n_iter,
-        cv_folds=args.cv
+        cv_folds=args.cv,
+        n_jobs=args.n_jobs
     )
 
 
