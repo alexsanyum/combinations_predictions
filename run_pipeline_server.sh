@@ -35,6 +35,7 @@ singularity exec --nv \
     AutoTokenizer.from_pretrained('DeepChem/ChemBERTa-77M-MLM'); \
     AutoModel.from_pretrained('DeepChem/ChemBERTa-77M-MLM')"
 
+echo "Model downloaded and cached successfully."
 
 # Run Singularity with the --home redirect and --writable-tmpfs layer
 singularity exec --nv \
