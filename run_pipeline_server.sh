@@ -1,7 +1,7 @@
 #!/bin/bash
 #SBATCH --job-name=embs_generation
 #SBATCH --nodes=1
-#SBATCH --partition=sequana_cpu_dev       # Obrigatoriamente sequana_gpu ou gpu
+#SBATCH --partition=sequana_gpu_dev       # Obrigatoriamente sequana_gpu ou gpu
 #SBATCH --ntasks-per-node=1
 #SBATCH --gres=gpu:1                  # Solicita 1 GPU para o processo
 #SBATCH --time=00:10:00
