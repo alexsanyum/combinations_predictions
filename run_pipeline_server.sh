@@ -7,8 +7,12 @@ REPO_DIR="/prj/pcmrnbio2/alex.yumbo/combinations_predictions"
 
 # Print path for debugging
 echo "Scratch directory: $SCRATCH_DIR"
-ls -ld "$SCRATCH_DIR"
+echo "Contetnt of scratch directory:"
+ls "$SCRATCH_DIR"
+
 echo "Data path: $DATA_PATH"
+echo "Contents of data directory:"
+ls "$DATA_PATH"
 echo "Container data path: $CONTAINER_DATA"
 echo "Repository directory: $REPO_DIR"
 
