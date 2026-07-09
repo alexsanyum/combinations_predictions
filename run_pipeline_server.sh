@@ -1,6 +1,6 @@
 #!/bin/bash
 
-SCRATCH_DIR="/scratch/pcmrnbio2/$(whoami)/"
+SCRATCH_DIR="/scratch/pcmrnbio2/$(whoami)"
 DATA_PATH="$SCRATCH_DIR/data/"
 CONTAINER_DATA="$SCRATCH_DIR/containers/py_data.sif"
 REPO_DIR="/prj/pcmrnbio2/alex.yumbo/combinations_predictions"
