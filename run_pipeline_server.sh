@@ -9,8 +9,8 @@
 #SBATCH --error=/scratch/pcmrnbio2/alex.yumbo/logs/job_%j.err
 
 
-cd $SLURM_SUBMIT_DIR
-pwd
+# cd $SLURM_SUBMIT_DIR
+# pwd
 
 SCRATCH_DIR="/scratch/pcmrnbio2/$(whoami)"
 REPO_DIR="/prj/pcmrnbio2/alex.yumbo/combinations_predictions"
