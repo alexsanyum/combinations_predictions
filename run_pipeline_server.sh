@@ -18,7 +18,7 @@ HF_CACHE_DIR="/scratch/pcmrnbio2/alex.yumbo/huggingface_cache"
 # Create HuggingFace cache directory ensuring it is writable and accessible
 mkdir -p $HF_CACHE_DIR 
 chmod -R 777 $HF_CACHE_DIR  # Ensure the cache directory is writable
-export HF_HOME=$HF_CACHE_DIR
+export TRANSFORMERS_CACHE=$HF_CACHE_DIR
 
 
 singularity exec --nv \
