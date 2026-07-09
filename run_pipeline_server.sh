@@ -18,7 +18,6 @@ mkdir -p $HF_CACHE_DIR
 export HF_HOME=$HF_CACHE_DIR
 
 singularity exec --nv \
-    --home $FAKE_HOME \
     -B $REPO_DIR:/app \
     -B $HF_CACHE_DIR:/root/.cache/huggingface \
     $CONTAINER_IMG \
