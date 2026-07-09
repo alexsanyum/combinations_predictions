@@ -24,6 +24,18 @@ mkdir -p $FAKE_HOME
 export TRANSFORMERS_CACHE=$HF_CACHE_DIR
 export HF_HOME=$HF_CACHE_DIR
 
+# First run to download the model and cache it
+singularity exec --nv \
+    --home $FAKE_HOME \
+    --writable-tmpfs \
+    -B $REPO_DIR:/app \
+    -B $HF_CACHE_DIR:$HF_CACHE_DIR \
+    $CONTAINER_IMG \
+    python -c "from transformers import AutoTokenizer, AutoModel; \
+    AutoTokenizer.from_pretrained('DeepChem/ChemBERTa-77M-MLM'); \
+    AutoModel.from_pretrained('DeepChem/ChemBERTa-77M-MLM')"
+
+
 # Run Singularity with the --home redirect and --writable-tmpfs layer
 singularity exec --nv \
     --home $FAKE_HOME \
