@@ -13,19 +13,14 @@ REPO_DIR="/scratch/pcmrnbio2/alex.yumbo/combinations_predictions"
 CONTAINER_IMG="/scratch/pcmrnbio2/alex.yumbo/containers/py_embs.sif"
 
 # Decicated cache for HuggingFace models
-HF_CACHE_DIR="/scratch/pcmrnbio2/alex.yumbo/huggingface_cache"
+HF_CACHE_DIR="/scratch/pcmrnbio2/alex.yumbo/hf_cache"
 mkdir -p $HF_CACHE_DIR
-
 export HF_HOME=$HF_CACHE_DIR
-export TRANSFORMERS_CACHE=$HF_CACHE_DIR
-
-FAKE_HOME="/scratch/pcmrnbio2/alex.yumbo/fake_home"
-mkdir -p $FAKE_HOME
 
 singularity exec --nv \
     --home $FAKE_HOME \
     -B $REPO_DIR:/app \
-    -B $HF_CACHE_DIR:$HF_CACHE_DIR \
+    -B $HF_CACHE_DIR:/root/.cache/huggingface \
     $CONTAINER_IMG \
     python /app/src/smiles2clsembs.py --smiles_path /app/data/normalized_abx.csv \
     --smiles_column normalized_smiles \
