@@ -19,7 +19,11 @@ mkdir -p $HF_CACHE_DIR
 export HF_HOME=$HF_CACHE_DIR
 export TRANSFORMERS_CACHE=$HF_CACHE_DIR
 
+FAKE_HOME="/scratch/pcmrnbio2/alex.yumbo/fake_home"
+mkdir -p $FAKE_HOME
+
 singularity exec --nv \
+    --home $FAKE_HOME \
     -B $REPO_DIR:/app \
     -B $HF_CACHE_DIR:$HF_CACHE_DIR \
     $CONTAINER_IMG \
