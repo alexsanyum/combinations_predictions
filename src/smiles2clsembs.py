@@ -3,9 +3,14 @@ from argparse import ArgumentParser
 import numpy as np
 import pandas as pd
 import torch
+import os
 
+# Print cahe directory for debugging
+print(f"Transformers cache directory: {os.getenv('TRANSFORMERS_CACHE', 'Not set')}")
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+print(f"Using device: {device}")
+
 
 def load_model_and_tokenizer(model_name):
     """Load pre-trained model and tokenizer to device."""

@@ -13,7 +13,7 @@ REPO_DIR="/scratch/pcmrnbio2/alex.yumbo/combinations_predictions"
 CONTAINER_IMG="/scratch/pcmrnbio2/alex.yumbo/containers/py_embs.sif"
 
 # Decicated cache for HuggingFace models
-HF_CACHE_DIR="/scratch/pcmrnbio2/alex.yumbo/hf_cache"
+HF_CACHE_DIR="/scratch/pcmrnbio2/alex.yumbo/huggingface_cache"
 mkdir -p $HF_CACHE_DIR
 export HF_HOME=$HF_CACHE_DIR
 export TRANSFORMERS_CACHE=$HF_CACHE_DIR
