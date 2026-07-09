@@ -1,20 +1,20 @@
 #!/bin/bash
 
 SCRATCH_DIR="/scratch/pcmrnbio2/$(whoami)"
-DATA_PATH="$SCRATCH_DIR/data/"
 CONTAINER_DATA="$SCRATCH_DIR/containers/py_data.sif"
 REPO_DIR="/prj/pcmrnbio2/alex.yumbo/combinations_predictions"
 
-# Print path for debugging
-echo "Scratch directory: $SCRATCH_DIR"
-echo "Contetnt of scratch directory:"
-ls "$SCRATCH_DIR"
+cd $REPO_DIR
+pwd
 
-echo "Data path: $DATA_PATH"
-echo "Contents of data directory:"
-ls "$DATA_PATH"
-echo "Container data path: $CONTAINER_DATA"
-echo "Repository directory: $REPO_DIR"
+singularity exec \
+    --bind $REPO_DIR:/app \
+    --bind $SCRATCH_DIR:$SCRATCH_DIR \
+    $CONTAINER_DATA \
+    python src/process_valid_SMILES_comb.py \
+        --comb_data_path $SCRATCH_DIR/data/B_blisssum_DropArray.csv \
+        --abx_data_path $REPO_DIR/metadata/antibiotics_names.txt \
+        --output_path $SCRATCH_DIR/data/
 
 
 #      sequana_cpu_dev       1         1        4      192    00:20:00 
