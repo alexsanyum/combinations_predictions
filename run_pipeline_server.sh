@@ -17,6 +17,7 @@ HF_CACHE_DIR="/scratch/pcmrnbio2/alex.yumbo/hf_cache"
 mkdir -p $HF_CACHE_DIR
 export HF_HOME=$HF_CACHE_DIR
 export TRANSFORMERS_CACHE=$HF_CACHE_DIR
+
 singularity exec --nv \
     -B $REPO_DIR:/app \
     -B $HF_CACHE_DIR:/root/.cache/huggingface \
