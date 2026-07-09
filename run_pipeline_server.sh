@@ -1,7 +1,7 @@
 #!/bin/bash
 #SBATCH --job-name=embs_generation
 #SBATCH --nodes=1
-#SBATCH --partition=sequana_gpu       
+#SBATCH --partition=sequana_gpu_dev       
 #SBATCH --ntasks-per-node=1
 #SBATCH --gres=gpu:1                  
 #SBATCH --time=00:10:00
