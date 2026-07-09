@@ -1,27 +1,33 @@
 #!/bin/bash
 #SBATCH --job-name=embs_generation
 #SBATCH --nodes=1
-#SBATCH --partition=sequana_gpu_dev       # Obrigatoriamente sequana_gpu ou gpu
+#SBATCH --partition=sequana_gpu_dev       
 #SBATCH --ntasks-per-node=1
-#SBATCH --gres=gpu:1                  # Solicita 1 GPU para o processo
+#SBATCH --gres=gpu:1                  
 #SBATCH --time=00:10:00
+#SBATCH --chdir=/scratch/pcmrnbio2/alex.yumbo/combinations_predictions
 #SBATCH --output=/scratch/pcmrnbio2/alex.yumbo/logs/job_%j.out
 #SBATCH --error=/scratch/pcmrnbio2/alex.yumbo/logs/job_%j.err
-
 
 REPO_DIR="/scratch/pcmrnbio2/alex.yumbo/combinations_predictions"
 CONTAINER_IMG="/scratch/pcmrnbio2/alex.yumbo/containers/py_embs.sif"
 
-# Decicated cache for HuggingFace models
+# Dedicated cache for HuggingFace models
 HF_CACHE_DIR="/scratch/pcmrnbio2/alex.yumbo/huggingface_cache"
-
-# Create HuggingFace cache directory ensuring it is writable and accessible
 mkdir -p $HF_CACHE_DIR 
-chmod -R 777 $HF_CACHE_DIR  # Ensure the cache directory is writable
+
+# Create a fake home space on scratch so the container can write internal logs safely
+FAKE_HOME="/scratch/pcmrnbio2/alex.yumbo/fake_home"
+mkdir -p $FAKE_HOME
+
+# Export variables for HuggingFace
 export TRANSFORMERS_CACHE=$HF_CACHE_DIR
+export HF_HOME=$HF_CACHE_DIR
 
-
+# Run Singularity with the --home redirect and --writable-tmpfs layer
 singularity exec --nv \
+    --home $FAKE_HOME \
+    --writable-tmpfs \
     -B $REPO_DIR:/app \
     -B $HF_CACHE_DIR:$HF_CACHE_DIR \
     $CONTAINER_IMG \
