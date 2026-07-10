@@ -43,15 +43,11 @@ def concatenate_embeddings_and_save(valid_combs, abx_to_index, small_mol_to_inde
         small_mol_indices = strain_data['cp_name'].map(small_mol_to_index).values
 
         # Broadcast embeddings to match the number of combinations
-        abx_embeddings = abx_embs['embeddings'][abx_indices]
-        small_mol_embeddings = small_mol_embs['embeddings'][small_mol_indices]
+        abx_embeddings = abx_embs[abx_indices]
+        small_mol_embeddings = small_mol_embs[small_mol_indices]
         bliss_med = strain_data['bliss_med'].values.reshape(-1, 1)
 
         # Convert bliss med to labels (1: abs(bliss_med > 0.3), else 0)
-
-        def bliss_map(bliss_med):
-            return 0 if np.abs(bliss_med) < 0.3 else 1
-        
         bliss_labels = np.where(np.abs(bliss_med) < 0.3, 0, 1)
 
         # Builc [abx_embeddings, small_mol_embeddings, bliss_med] for each combination
