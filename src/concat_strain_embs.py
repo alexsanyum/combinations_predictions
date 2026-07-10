@@ -55,7 +55,8 @@ def concatenate_embeddings_and_save(valid_combs, abx_to_index, small_mol_to_inde
 
         # Save compressed embeddings for the strain
         print(f"Saving embeddings for strain: {strain} with shape {combined_embeddings.shape}")
-        np.savez_compressed(os.path.join(output_dir, f"{strain}_embeddings.npz"), comb_embs=combined_embeddings)
+        np.save(os.path.join(output_dir, f"{strain}_embeddings.npy"), combined_embeddings)
+        #np.savez_compressed(os.path.join(output_dir, f"{strain}_embeddings.npz"), comb_embs=combined_embeddings)
 
         # Free up memory
         del abx_embeddings, small_mol_embeddings, bliss_med, combined_embeddings
