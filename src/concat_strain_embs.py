@@ -2,6 +2,7 @@ from argparse import ArgumentParser
 import numpy as np
 import pandas as pd
 import os
+import gc
 
 def load_data(comb_data_path, norm_small_mols_path, small_mol_embs_path, norm_abx_path, abx_embs_path):
 
@@ -11,8 +12,12 @@ def load_data(comb_data_path, norm_small_mols_path, small_mol_embs_path, norm_ab
     # Load normalized small molecule and antibiotic data along with their embeddings
     norm_small_mols = pd.read_csv(norm_small_mols_path)
     norm_abx = pd.read_csv(norm_abx_path)
-    small_mol_embs = np.load(small_mol_embs_path)
-    abx_embs = np.load(abx_embs_path)
+    
+    with np.load(small_mol_embs_path) as data:
+        small_mol_embs = data['embeddings']
+    
+    with np.load(abx_embs_path) as data:
+        abx_embs = data['embeddings']
     
     return valid_combs, norm_small_mols, small_mol_embs, norm_abx, abx_embs
 
@@ -47,19 +52,19 @@ def concatenate_embeddings_and_save(valid_combs, abx_to_index, small_mol_to_inde
         def bliss_map(bliss_med):
             return 0 if np.abs(bliss_med) < 0.3 else 1
         
-        bliss_labels = np.array([bliss_map(x) for x in bliss_med])
+        bliss_labels = np.where(np.abs(bliss_med) < 0.3, 0, 1)
 
         # Builc [abx_embeddings, small_mol_embeddings, bliss_med] for each combination
-        combined_embeddings = np.concatenate((abx_embeddings, small_mol_embeddings), axis=1)
-        combined_embeddings = np.concatenate((combined_embeddings, bliss_labels.reshape(-1, 1)), axis=1)
+        combined_embeddings = np.concatenate((abx_embeddings, small_mol_embeddings, bliss_labels), axis=1)
 
         # Save compressed embeddings for the strain
         print(f"Saving embeddings for strain: {strain} with shape {combined_embeddings.shape}")
-        np.save(os.path.join(output_dir, f"{strain}_embeddings.npy"), combined_embeddings)
+        np.savez(os.path.join(output_dir, f"{strain}_embeddings.npz"), combined_embeddings)
         #np.savez_compressed(os.path.join(output_dir, f"{strain}_embeddings.npz"), comb_embs=combined_embeddings)
 
         # Free up memory
         del abx_embeddings, small_mol_embeddings, bliss_med, combined_embeddings
+        gc.collect()
     print(f"Embeddings for all strains have been saved in {output_dir}.")
     return
 
