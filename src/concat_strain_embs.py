@@ -73,17 +73,21 @@ def main():
 
     args = parser.parse_args()
 
+    print("Starting the concatenation of strain embeddings...")
+
+    print(f"Loading combination data from: {args.comb_data}")
     # Load data
     valid_combs, norm_small_mols, small_mol_embs, norm_abx, abx_embs = load_data(
         args.comb_data, args.norm_small_mols, args.small_mol_embs, args.norm_abx, args.abx_embs
     )
 
     # Build mapping indexes
+    print("Building mapping indexes for antibiotics and small molecules...")
     abx_to_index, small_mol_to_index = build_map_indexes(norm_abx, norm_small_mols)
 
     # Create output directory if it doesn't exist
     os.makedirs(args.output_dir, exist_ok=True)
-
+    print(f"Concatenating embeddings and saving to directory: {args.output_dir}")
     # Concatenate embeddings and save
     concatenate_embeddings_and_save(valid_combs, abx_to_index, small_mol_to_index, small_mol_embs, abx_embs, args.output_dir)
 
