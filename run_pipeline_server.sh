@@ -22,7 +22,7 @@ echo "Test if is accessing to the repository..."
 singularity exec \
     -B $REPO_DIR:/app \
     $CONTAINER_IMG \
-    python /app/src/concat_strain_embs.py --comb_data /app/data/valid_comb_data.csv \
+    python -u /app/src/concat_strain_embs.py --comb_data /app/data/valid_comb_data.csv \
                                       --norm_small_mols /app/data/normalized_small_mol.csv \
                                       --small_mol_embs /app/data/small_mol_embs.npz \
                                       --norm_abx /app/data/normalized_abx.csv \
