@@ -114,10 +114,6 @@ def run_pipeline(strain_embs_path, splits_path, output_models_dir, target_model,
         X_train = data[train_indices, :-1]
         y_train = data[train_indices, -1]
 
-        # For testing purposes, limit the training data to 10,000 samples
-        # Comment out the following two lines for full dataset training
-        X_train = X_train[:1000]
-        y_train = y_train[:1000]
         del data
         gc.collect()
 
