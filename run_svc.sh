@@ -23,7 +23,7 @@ singularity exec -B $REPO_DIR:/app $CONTAINER_IMG \
         --strain_embs "data/strains_embs/*.npz" \
         --splits_path "data/strains_embs/train_test_splits_indices.npy" \
         --output_dir "data/models_production/" \
-        --n_iter 20 \
+        --n_iter 30 \
         --cv 5 \
         --model svc \
         --n_jobs 1
