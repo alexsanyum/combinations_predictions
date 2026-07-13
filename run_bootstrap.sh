@@ -15,10 +15,10 @@ for STRAIN in "${STRAINS[@]}"; do
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=16
 #SBATCH --mem=64G
-#SBATCH --time=5:00:00
+#SBATCH --time=00:20:00
 #SBATCH --chdir=/scratch/pcmrnbio2/alex.yumbo/combinations_predictions
-#SBATCH --output=/scratch/pcmrnbio2/alex.yumbo/logs/boot_${STRAIN}_%j.out
-#SBATCH --error=/scratch/pcmrnbio2/alex.yumbo/logs/boot_${STRAIN}_%j.err
+#SBATCH --output=/scratch/pcmrnbio2/alex.yumbo/logs/boot_dev_${STRAIN}_%j.out
+#SBATCH --error=/scratch/pcmrnbio2/alex.yumbo/logs/boot_dev_${STRAIN}_%j.err
 
 export OMP_NUM_THREADS=$SLURM_CPUS_PER_TASK
 export MKL_NUM_THREADS=$SLURM_CPUS_PER_TASK
@@ -33,7 +33,7 @@ singularity exec -B \$REPO_DIR:/app \$CONTAINER_IMG \
         --PATH_TO_MODELS "data/models_production/" \
         --PATH_TO_DATA "data/strains_embs/" \
         --PATH_TO_INDICES "data/strains_embs/train_test_splits_indices.npy" \
-        --OUTPUT_DIR "data/bootstrap_results/" \
+        --OUTPUT_DIR "data/bootstrap_results_test/" \
         --STRAIN "$STRAIN" \
         --MODEL_NAME "$MODEL" \
         --N_BOOTSTRAPS 2
