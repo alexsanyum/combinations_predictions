@@ -104,13 +104,15 @@ def run_pipeline(strain_embs_path, splits_path, output_models_dir, target_model,
 
     for strain in dir_list:
         
+
+
+        strain_path = Path(strain)
+        strain_name = str(strain_path.name).split("_")[0]
         out_path = os.path.join(output_models_dir, f"{strain_name}_{target_model}_by_undersampling.pkl")
         if os.path.exists(out_path):
             print(f"Model for strain {strain_name} already exists at {out_path}. Skipping...")
             continue
 
-        strain_path = Path(strain)
-        strain_name = str(strain_path.name).split("_")[0]
         print(f"\nProcessing strain: {strain_name}")
 
         data = np.load(strain_path)['arr_0']
