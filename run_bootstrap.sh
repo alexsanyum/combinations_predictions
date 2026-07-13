@@ -14,11 +14,15 @@ for STRAIN in "${STRAINS[@]}"; do
 #SBATCH --nodes=1
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=16
-#SBATCH --mem=120G
+#SBATCH --mem=64G
 #SBATCH --time=5:00:00
 #SBATCH --chdir=/scratch/pcmrnbio2/alex.yumbo/combinations_predictions
 #SBATCH --output=/scratch/pcmrnbio2/alex.yumbo/logs/boot_${STRAIN}_%j.out
 #SBATCH --error=/scratch/pcmrnbio2/alex.yumbo/logs/boot_${STRAIN}_%j.err
+
+export OMP_NUM_THREADS=$SLURM_CPUS_PER_TASK
+export MKL_NUM_THREADS=$SLURM_CPUS_PER_TASK
+export OPENBLAS_NUM_THREADS=$SLURM_CPUS_PER_TASK
 
 
 CONTAINER_IMG="/scratch/pcmrnbio2/alex.yumbo/containers/py_ml.sif"
