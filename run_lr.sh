@@ -14,7 +14,7 @@ export OMP_NUM_THREADS=1
 export MKL_NUM_THREADS=1
 export OPENBLAS_NUM_THREADS=1
 
-CONTAINER_IMG="/scratch/pcmrnbio2/alex.yumbo/containers/py_data.sif"
+CONTAINER_IMG="/scratch/pcmrnbio2/alex.yumbo/containers/py_ml.sif"
 REPO_DIR="/scratch/pcmrnbio2/alex.yumbo/combinations_predictions"
 
 singularity exec -B $REPO_DIR:/app $CONTAINER_IMG \

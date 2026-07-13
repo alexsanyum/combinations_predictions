@@ -15,7 +15,7 @@ export OMP_NUM_THREADS=$SLURM_CPUS_PER_TASK
 export MKL_NUM_THREADS=$SLURM_CPUS_PER_TASK
 export OPENBLAS_NUM_THREADS=$SLURM_CPUS_PER_TASK
 
-CONTAINER_IMG="/scratch/pcmrnbio2/alex.yumbo/containers/py_data.sif"
+CONTAINER_IMG="/scratch/pcmrnbio2/alex.yumbo/containers/py_ml.sif"
 REPO_DIR="/scratch/pcmrnbio2/alex.yumbo/combinations_predictions"
 
 singularity exec -B $REPO_DIR:/app $CONTAINER_IMG \
