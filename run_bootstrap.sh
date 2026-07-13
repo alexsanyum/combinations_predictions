@@ -13,7 +13,7 @@ for STRAIN in "${STRAINS[@]}"; do
 #SBATCH --partition=sequana_cpu_dev
 #SBATCH --nodes=1
 #SBATCH --ntasks=1
-#SBATCH --cpus-per-task=16
+#SBATCH --cpus-per-task=4
 #SBATCH --mem=64G
 #SBATCH --time=00:20:00
 #SBATCH --chdir=/scratch/pcmrnbio2/alex.yumbo/combinations_predictions
