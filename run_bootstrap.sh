@@ -10,7 +10,7 @@ for STRAIN in "${STRAINS[@]}"; do
     sbatch <<EOT
 #!/bin/bash
 #SBATCH --job-name=boot_${STRAIN}
-#SBATCH --partition=sequana_cpu
+#SBATCH --partition=sequana_cpu_dev
 #SBATCH --nodes=1
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=16
