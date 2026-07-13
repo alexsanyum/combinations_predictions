@@ -103,6 +103,12 @@ def run_pipeline(strain_embs_path, splits_path, output_models_dir, target_model,
     sk = StratifiedKFold(n_splits=cv_folds, shuffle=True, random_state=42)
 
     for strain in dir_list:
+        
+        out_path = os.path.join(output_models_dir, f"{strain_name}_{target_model}_by_undersampling.pkl")
+        if os.path.exists(out_path):
+            print(f"Model for strain {strain_name} already exists at {out_path}. Skipping...")
+            continue
+
         strain_path = Path(strain)
         strain_name = str(strain_path.name).split("_")[0]
         print(f"\nProcessing strain: {strain_name}")
@@ -135,8 +141,8 @@ def run_pipeline(strain_embs_path, splits_path, output_models_dir, target_model,
         with joblib.parallel_backend('loky', n_jobs=n_jobs):
             bs.fit(X_train, y_train)
         
-        joblib.dump(bs, os.path.join(output_models_dir, f"{strain_name}_{target_model}_by_undersampling.pkl"))
-        print(f"Saved model for strain {strain_name} to {output_models_dir}")
+        joblib.dump(bs, out_path)
+        print(f"Saved model for strain {strain_name} to {out_path}")
         del X_train, y_train, bs
         gc.collect()
             
