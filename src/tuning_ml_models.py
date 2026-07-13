@@ -103,9 +103,6 @@ def run_pipeline(strain_embs_path, splits_path, output_models_dir, target_model,
     sk = StratifiedKFold(n_splits=cv_folds, shuffle=True, random_state=42)
 
     for strain in dir_list:
-        
-
-
         strain_path = Path(strain)
         strain_name = str(strain_path.name).split("_")[0]
         out_path = os.path.join(output_models_dir, f"{strain_name}_{target_model}_by_undersampling.pkl")
