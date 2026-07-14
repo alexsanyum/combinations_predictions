@@ -1,11 +1,11 @@
 #!/bin/bash
 #SBATCH --job-name=bootstrap
-#SBATCH --partition=sequana_cpu_dev
+#SBATCH --partition=sequana_cpu
 #SBATCH --nodes=1
 #SBATCH --ntasks=1
-#SBATCH --cpus-per-task=4
-#SBATCH --time=00:20:00
-#SBATCH --mem=64G
+#SBATCH --cpus-per-task=16
+#SBATCH --time=05:00:00
+#SBATCH --mem=120G
 #SBATCH --chdir=/scratch/pcmrnbio2/alex.yumbo/combinations_predictions
 #SBATCH --output=/scratch/pcmrnbio2/alex.yumbo/logs/bootstrap_%j.out
 #SBATCH --error=/scratch/pcmrnbio2/alex.yumbo/logs/bootstrap_%j.err
@@ -38,4 +38,4 @@ singularity exec -B $REPO_DIR:/app $CONTAINER_IMG \
         --OUTPUT_DIR "data/bootstrap_results/" \
         --STRAIN "$STRAIN" \
         --MODEL_NAME "$MODEL" \
-        --N_BOOTSTRAPS 2
+        --N_BOOTSTRAPS 1000
