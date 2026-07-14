@@ -1,10 +1,10 @@
 #!/bin/bash
 #SBATCH --job-name=bootstrap
-#SBATCH --partition=sequana_cpu
+#SBATCH --partition=sequana_cpu_dev
 #SBATCH --nodes=1
 #SBATCH --ntasks=1
-#SBATCH --cpus-per-task=8
-#SBATCH --time=05:00:00
+#SBATCH --cpus-per-task=4
+#SBATCH --time=00:20:00
 #SBATCH --mem=64G
 #SBATCH --chdir=/scratch/pcmrnbio2/alex.yumbo/combinations_predictions
 #SBATCH --output=/scratch/pcmrnbio2/alex.yumbo/logs/bootstrap_%j.out
@@ -35,7 +35,7 @@ singularity exec -B $REPO_DIR:/app $CONTAINER_IMG \
         --PATH_TO_MODELS "data/models_production/" \
         --PATH_TO_DATA "data/strains_embs/" \
         --PATH_TO_INDICES "data/strains_embs/train_test_splits_indices.npy" \
-        --OUTPUT_DIR "data/bootstrap_results_test/" \
+        --OUTPUT_DIR "data/bootstrap_results/" \
         --STRAIN "$STRAIN" \
         --MODEL_NAME "$MODEL" \
-        --N_BOOTSTRAPS 1000
+        --N_BOOTSTRAPS 2
