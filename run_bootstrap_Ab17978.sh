@@ -26,6 +26,6 @@ singularity exec -B $REPO_DIR:/app $CONTAINER_IMG \
         --PATH_TO_DATA "data/strains_embs/" \
         --PATH_TO_INDICES "data/strains_embs/train_test_splits_indices.npy" \
         --OUTPUT_DIR "data/bootstrap_results_test/" \
-        --STRAIN "$STRAIN" \
+        --STRAIN "Ab17978" \
         --MODEL_NAME "$MODEL" \
         --N_BOOTSTRAPS 2
