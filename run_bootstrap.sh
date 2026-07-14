@@ -1,5 +1,5 @@
 #!/bin/bash
-#SBATCH --job-name=boot_Ab17978
+#SBATCH --job-name=bootstrap
 #SBATCH --partition=sequana_cpu
 #SBATCH --nodes=1
 #SBATCH --ntasks=1
@@ -7,8 +7,8 @@
 #SBATCH --time=05:00:00
 #SBATCH --mem=64G
 #SBATCH --chdir=/scratch/pcmrnbio2/alex.yumbo/combinations_predictions
-#SBATCH --output=/scratch/pcmrnbio2/alex.yumbo/logs/boot_Ab17978_%j.out
-#SBATCH --error=/scratch/pcmrnbio2/alex.yumbo/logs/boot_Ab17978_%j.err
+#SBATCH --output=/scratch/pcmrnbio2/alex.yumbo/logs/bootstrap_%j.out
+#SBATCH --error=/scratch/pcmrnbio2/alex.yumbo/logs/bootstrap_%j.err
 
 # ------------------------------------------------------------------
 # 1. Capture the Strain name passed from the command line ($1)
