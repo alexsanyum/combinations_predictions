@@ -20,8 +20,8 @@ export OPENBLAS_NUM_THREADS=$SLURM_CPUS_PER_TASK
 CONTAINER_IMG="/scratch/pcmrnbio2/alex.yumbo/containers/py_ml.sif"
 REPO_DIR="/scratch/pcmrnbio2/alex.yumbo/combinations_predictions"
 
-singularity exec -B \$REPO_DIR:/app \$CONTAINER_IMG \
-    python -u -m src.bootstrap_analysis \
+singularity exec -B $REPO_DIR:/app $CONTAINER_IMG \
+        python -u -m src.bootstrap_analysis \
         --PATH_TO_MODELS "data/models_production/" \
         --PATH_TO_DATA "data/strains_embs/" \
         --PATH_TO_INDICES "data/strains_embs/train_test_splits_indices.npy" \
