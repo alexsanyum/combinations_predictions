@@ -37,7 +37,7 @@ def evaluate_model(model, X_test, y_test):
         "cohen_kappa": cohen_kappa_score(y_test, y_pred),
         "imcp": imcp_score_adapted(y_test, y_pred),
         "fbeta": fbeta_score(y_test, y_pred, beta=2),
-    }
+    }, y_proba
 
 
 def retrain_and_evaluate_strain(
@@ -72,13 +72,21 @@ def retrain_and_evaluate_strain(
 
     # Evaluate on test set
     print(f"Evaluating {strain_name} on test set...")
-    metrics = evaluate_model(best_pipeline, X_test, y_test)
+    metrics, y_proba = evaluate_model(best_pipeline, X_test, y_test)
+
     metrics["strain"] = strain_name
 
     out_model_path = os.path.join(output_dir, f"{strain_name}_final_model.pkl")
     joblib.dump(best_pipeline.steps[-1][1], out_model_path)
     print(f"Saved retrained model to: {out_model_path}")
 
+    # Save predictions
+    out_preds_path = os.path.join(output_dir, f"{strain_name}_predictions.csv")
+    preds_df = pd.DataFrame({
+        "true_labels": y_test,
+        "predictions_prob": y_proba})
+    preds_df.to_csv(out_preds_path, index=False)
+    print(f"Saved predictions to: {out_preds_path}")
     # Free memory
     del X_train, y_train, X_test, y_test
     gc.collect()
