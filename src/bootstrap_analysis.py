@@ -6,7 +6,7 @@ import pandas as pd
 from glob import glob
 from sklearn.utils import resample
 from imblearn.pipeline import Pipeline
-from sklearn.metrics import accuracy_score, roc_auc_score, matthews_corrcoef, log_loss
+from sklearn.metrics import accuracy_score, roc_auc_score, matthews_corrcoef, log_loss, precision_score, recall_score, f1_score
 
 # Local imports
 from src.tuning_ml_models import imcp_score_adapted
@@ -102,6 +102,9 @@ def bootstrap_train(model, model_step_name, X_train, y_train, X_test, y_test, n_
         metrics['mcc'].append(matthews_corrcoef(y_test, y_pred))
         metrics['log_loss'].append(log_loss(y_test, y_pred_proba))
         metrics['imcp'].append(imcp_score_adapted(y_test, y_pred_proba))
+        metrics['precision'] = precision_score(y_test, y_pred)
+        metrics['recall'] = recall_score(y_test, y_pred)
+        metrics['f1'] = f1_score(y_test, y_pred)
         
         # Extract weights/importances dynamically from the estimator step
         estimator = model.named_steps[model_step_name]
