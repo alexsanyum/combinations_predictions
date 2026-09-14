@@ -72,7 +72,7 @@ def bootstrap_train(model, model_step_name, X_train, y_train, X_test, y_test, n_
     predictions_proba = [y_test]
 
     # Store metrics
-    metrics = {'accuracy': [], 'roc_auc': [], 'mcc': [], 'log_loss': [], "imcp": []}
+    metrics = {'accuracy': [], 'roc_auc': [], 'mcc': [], 'log_loss': [], "imcp": [], "precision": [], "recall": [], "f1": []}
     feature_importances = []
     
     for i in range(n_bootstraps):
