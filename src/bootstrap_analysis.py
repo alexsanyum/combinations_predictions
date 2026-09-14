@@ -102,9 +102,9 @@ def bootstrap_train(model, model_step_name, X_train, y_train, X_test, y_test, n_
         metrics['mcc'].append(matthews_corrcoef(y_test, y_pred))
         metrics['log_loss'].append(log_loss(y_test, y_pred_proba))
         metrics['imcp'].append(imcp_score_adapted(y_test, y_pred_proba))
-        metrics['precision'] = precision_score(y_test, y_pred)
-        metrics['recall'] = recall_score(y_test, y_pred)
-        metrics['f1'] = f1_score(y_test, y_pred)
+        metrics['precision'].append(precision_score(y_test, y_pred))
+        metrics['recall'].append(recall_score(y_test, y_pred))
+        metrics['f1'].append(f1_score(y_test, y_pred))
         
         # Extract weights/importances dynamically from the estimator step
         estimator = model.named_steps[model_step_name]
