@@ -6,7 +6,7 @@ import pandas as pd
 from glob import glob
 from sklearn.utils import resample
 from imblearn.pipeline import Pipeline
-from sklearn.metrics import accuracy_score, roc_auc_score, matthews_corrcoef, log_loss, precision_score, recall_score, f1_score
+from sklearn.metrics import accuracy_score, roc_auc_score, matthews_corrcoef, log_loss, precision_score, recall_score, f1_score, confusion_matrix
 
 # Local imports
 from src.tuning_ml_models import imcp_score_adapted
@@ -72,7 +72,11 @@ def bootstrap_train(model, model_step_name, X_train, y_train, X_test, y_test, n_
     predictions_proba = [y_test]
 
     # Store metrics
-    metrics = {'accuracy': [], 'roc_auc': [], 'mcc': [], 'log_loss': [], "imcp": [], "precision": [], "recall": [], "f1": []}
+    metrics = {'accuracy': [], 'roc_auc': [], 'mcc': [], 
+               'log_loss': [], 'imcp': [], 'precision': [], 
+               'recall': [], 'f1': [],
+               'true_negative': [], 'false_positive': [],
+                'false_negative': [], 'true_positive': [] }
     feature_importances = []
     
     for i in range(n_bootstraps):
@@ -96,6 +100,9 @@ def bootstrap_train(model, model_step_name, X_train, y_train, X_test, y_test, n_
         predictions.append(y_pred)
         predictions_proba.append(y_pred_proba)
 
+        # Compute confusion matrix components
+        tn, fp, fn, tp = confusion_matrix(y_test, y_pred).ravel()
+
         # Calculate metrics
         metrics['accuracy'].append(accuracy_score(y_test, y_pred))
         metrics['roc_auc'].append(roc_auc_score(y_test, y_pred_proba))
@@ -105,6 +112,11 @@ def bootstrap_train(model, model_step_name, X_train, y_train, X_test, y_test, n_
         metrics['precision'].append(precision_score(y_test, y_pred))
         metrics['recall'].append(recall_score(y_test, y_pred))
         metrics['f1'].append(f1_score(y_test, y_pred))
+        metrics['true_negative'].append(tn)
+        metrics['false_positive'].append(fp)
+        metrics['false_negative'].append(fn)
+        metrics['true_positive'].append(tp)
+
         
         # Extract weights/importances dynamically from the estimator step
         estimator = model.named_steps[model_step_name]
