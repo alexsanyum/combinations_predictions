@@ -1,11 +1,11 @@
 #!/bin/bash
 #SBATCH --job-name=iter_undersampling
-#SBATCH --partition=sequana_cpu
+#SBATCH --partition=sequana_cpu_dev
 #SBATCH --nodes=1
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=32
-#SBATCH --time=05:00:00
-#SBATCH --mem=120G
+#SBATCH --time=00:20:00
+#SBATCH --mem=64G
 #SBATCH --chdir=/scratch/pcmrnbio2/alex.yumbo/combinations_predictions
 #SBATCH --output=/scratch/pcmrnbio2/alex.yumbo/logs/iter_undersampling_%j.out
 #SBATCH --error=/scratch/pcmrnbio2/alex.yumbo/logs/iter_undersampling_%j.err
@@ -24,4 +24,5 @@ singularity exec -B $REPO_DIR:/app $CONTAINER_IMG \
         --data_path "$PATH_TO_DATA" \
         --output_dir "data/undersampling_results/" \
         --n_jobs 32 \
-        --seeds 1000
+        --iterations 2 \
+        --test_mode
