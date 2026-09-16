@@ -24,5 +24,5 @@ singularity exec -B $REPO_DIR:/app $CONTAINER_IMG \
         --data_path "$PATH_TO_DATA" \
         --output_dir "data/undersampling_results/" \
         --n_jobs 32 \
-        --iterations 2 \
-        --test_mode
+        --iterations 3 \
+        
