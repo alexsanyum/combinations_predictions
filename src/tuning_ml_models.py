@@ -44,21 +44,24 @@ def get_single_model_and_params(model_name):
     }
 
     if model_name == "lr":
-        model_obj = LogisticRegression(random_state=42, class_weight='balanced', solver="saga")
+        model_obj = LogisticRegression(random_state=42,
+                                        class_weight='balanced', 
+                                        solver="saga",
+                                        penalty="elasticnet",
+                                        tol=1e-3)
         grid = {
-            "lr__C": Real(1e-3, 1e3, prior="log-uniform"),
-            "lr__max_iter": Integer(100, 5000, prior="uniform"),
+            "lr__C": Real(1e-3, 1e2, prior="log-uniform"),
+            "lr__max_iter": Integer(100, 1500, prior="uniform"),
             "lr__l1_ratio": Real(0.1, 1, prior="uniform")
         }
     elif model_name == "svc":
         base_svc = SVC(random_state=42, class_weight='balanced')
         model_obj = CalibratedClassifierCV(base_svc, ensemble=False)
         grid = {
-            "svc__estimator__kernel": Categorical(["rbf", "sigmoid"]),
-            "svc__estimator__degree": Integer(2, 5),
+            "svc__estimator__kernel": Categorical(["rbf"]),
             "svc__estimator__gamma": Real(1e-3, 1e+1, prior="log-uniform"),
             "svc__estimator__C": Real(1e-1, 10, prior="log-uniform"),
-            "svc__estimator__max_iter": Integer(500, 3000)
+            "svc__estimator__max_iter": Integer(100, 2000)
         }
     elif model_name == "rf":
         model_obj = RandomForestClassifier(random_state=42, class_weight='balanced', n_jobs=1)
