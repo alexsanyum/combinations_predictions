@@ -1,0 +1,17 @@
+FROM condaforge/mambaforge:latest
+
+# Install system dependencies
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    build-essential \
+    git \
+    && rm -rf /var/lib/apt/lists/*
+
+# Create the isolated Conda environment with exact versions
+RUN mamba create -y -n env_data python=3.14 numpy=2.4.6 pandas=3.0.3 rdkit=2025.9.6 pip=26.1.2
+
+# Set environment variables so the container uses this environment by default
+ENV PATH=/opt/conda/envs/env_data/bin:$PATH
+ENV LC_ALL=C
+
+# Install dimorphite_dl via pip inside the correct environment
+RUN pip install --no-cache-dir dimorphite_dl==2.0.2
