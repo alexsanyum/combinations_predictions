@@ -136,7 +136,7 @@ Final models are saved as pkl files.
 
 The dataset contains theorical antibiotics and small-molecules pairs that were not experimentally evaluated. Those are first identified and constructed (concatenation of embeddings) and uses as input for the models. 
  
-THis is done in the next ```predict_unknown_combinations.py``` script.
+This is done in the next ```predict_unknown_combinations.py``` script.
 
 ~~~bash
 python -m src.predict_unknown_combinations  --abx_norm data/normalized_abx.csv \
@@ -147,3 +147,16 @@ python -m src.predict_unknown_combinations  --abx_norm data/normalized_abx.csv \
                                             --models_path data/final_models/ \
                                             --output_dir data/unknown_combs/
 ~~~
+
+## Results analysis
+
+In the ```notebook``` directory are jupyter-notebook in which are evaluated the results and metrics of  the mentioned process.
+
+- ```tse_data_exploration.ipynb``` Analyze the dataset, and the molecules represented through the chemBERTa embeddings
+- ```hyperparameter_analysis.ipynb``` Analyze the metrics during hyperparamter tunning for each of the five classifiers
+- ```precsion_recall_analysis.ipynb``` Computes and calculate the precion-recall curve for the six strains models
+- ```undersampling_impact.ipynb``` analyze the effect of the custom undersampling method on the dataset diversity and the model performance
+- ```unknown_comb_predictions.ipynb``` Anylyze the results for the unscreened combinations, counting each of the classes. 
+
+### Envioroment configuration 
+In the ```singulary_configurations``` direcory is available the dockerfiles for 3 different set ip. Dockerfile.data was used for data preprocessing, SMILES standardization, and results analysis. Dockerfile.embs is specifcally for chemBERTa processing. And Docker.ml setup envrioment for machine learning model training. 
